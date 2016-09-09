@@ -149,7 +149,8 @@ window.onload = function ()
 
 	/*模糊匹配*/
 	oBtnSearch.onclick = function () 
-	{
+	{	
+		var flag = 0;
 		var sTxt = oSearch.value.toLowerCase(); 
 		for (var i = 0; i < oTab.tBodies[0].rows.length; i++) 
 		{
@@ -157,11 +158,16 @@ window.onload = function ()
 			if (sTab.search(sTxt)!=-1) 
 			{
 				oTab.tBodies[0].rows[i].style.backgroundColor = 'yellow';
+				flag++;
 			}
 			else //将未被匹配的项颜色调回原背景色
 			{
 				oTab.tBodies[0].rows[i].style.backgroundColor = '#f2f7fc';
 			}
+		}
+		if (flag === 0) 
+		{
+			alert('not found');
 		}
 	};
 
