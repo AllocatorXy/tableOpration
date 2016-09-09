@@ -7,6 +7,29 @@ window.onload = function ()
 	var oName = document.getElementById('name');
 	var oAge = document.getElementById('age');
 	var aDel = document.getElementsByTagName('a');
+	var defValNm = oName.value;
+	var defValAg = oAge.value;
+
+	function checkSpace(str) //判断名字输入是否合理(是否全为空格或没有填)
+	{
+		while(str.lastIndexOf(" ")>=0)
+		{
+		str = str.replace(" ","");
+		}
+		if(str.length === 0||str.value == defValNm)
+		{
+		return true;
+		}
+	}
+	function checkAge(id) 
+	{
+	　　var re = /^[1-9]+[0-9]*]*$/; //判断字符串是否为数字 //判断正整数 /^[1-9]+[0-9]*]*$/ 
+	　　var num = document.getElementById(id).value;
+	　　if (!re.test(num)) 
+		{
+	　　　　return true;
+	　　}
+	}
 
 	var delTr = function () //删除操作
 	{
@@ -21,7 +44,6 @@ window.onload = function ()
 	{
 		this.style.backgroundColor = exColor;
 	};
-
 	for (var i = 0; i < aDel.length; i++) //添加点击删除事件
 	{
 		aDel[i].onclick = delTr; //避免循环定义函数
@@ -33,8 +55,50 @@ window.onload = function ()
 		oTab.tBodies[0].rows[j].onmouseout = resetColor;
 	}
 
+	/*txt框聚焦失焦效果，这里不能用一个函数代替因为js是单线程运行的*/
+	oName.onfocus = function () 
+	{
+		if (this.value == defValNm) 
+		{
+			this.value = '';
+		}	
+	};
+	oAge.onfocus = function () 
+	{
+		if (this.value == defValAg) 
+		{
+			this.value = '';
+		}
+	};
+	oName.onblur = function () 
+	{
+		if (this.value === '') 
+		{
+			this.value = defValNm;
+		}
+	};
+	oAge.onblur = function () 
+	{
+		if (this.value === '') 
+		{
+			this.value = defValAg;
+		}
+	};
+
 	oBtnInsert.onclick = function () //插入新行
 	{
+		if (checkSpace(oName.value) === true) 
+		{
+			alert("名字不能为空！");
+			return false;
+		}
+		if (checkAge('age') === true) 
+		{
+			alert("请输入正确的年龄！年龄为正整数。");
+			return false;
+		}
+
+		
 		var oTr = document.createElement('tr');
 
 		/*创建id项并插入到新建的oTr*/
@@ -64,5 +128,7 @@ window.onload = function ()
 
 		oTab.tBodies[0].appendChild(oTr); //插入到tbodies
 	};
+
+
 
 };
