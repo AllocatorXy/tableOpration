@@ -3,12 +3,15 @@ window.onload = function ()
 	var oTab = document.getElementById('tab1');
 	var exColor = '';
 	var oBtnInsert = document.getElementById('btn1');
+	var oBtnSearch = document.getElementById('btn2');
 	var id = oTab.tBodies[0].rows.length+1;
 	var oName = document.getElementById('name');
 	var oAge = document.getElementById('age');
+	var oSearch = document.getElementById('searchName');
 	var aDel = document.getElementsByTagName('a');
 	var defValNm = oName.value;
 	var defValAg = oAge.value;
+	var defValSc = oSearch.value;
 
 	function checkSpace(str) //判断名字输入是否合理(是否全为空格或没有填)
 	{
@@ -47,7 +50,6 @@ window.onload = function ()
 	for (var i = 0; i < aDel.length; i++) //添加点击删除事件
 	{
 		aDel[i].onclick = delTr; //避免循环定义函数
-
 	}
 	for (var j = 0; j < oTab.tBodies[0].rows.length; j++) //添加划过高亮效果
 	{
@@ -70,6 +72,13 @@ window.onload = function ()
 			this.value = '';
 		}
 	};
+	oSearch.onfocus = function () 
+	{
+		if (this.value == defValSc) 
+		{
+			this.value = '';
+		}	
+	};
 	oName.onblur = function () 
 	{
 		if (this.value === '') 
@@ -84,8 +93,16 @@ window.onload = function ()
 			this.value = defValAg;
 		}
 	};
+	oSearch.onblur = function () 
+	{
+		if (this.value === '') 
+		{
+			this.value = defValSc;
+		}
+	};
 
-	oBtnInsert.onclick = function () //插入新行
+	/*插入新行*/
+	oBtnInsert.onclick = function () 
 	{
 		/*阻止非法内容*/
 		if (checkSpace(oName.value) === true) 
@@ -130,5 +147,22 @@ window.onload = function ()
 	};
 
 
+	/*模糊匹配*/
+	oBtnSearch.onclick = function () 
+	{
+		var sTxt = oSearch.value.toLowerCase(); 
+		for (var i = 0; i < oTab.tBodies[0].rows.length; i++) 
+		{
+			var sTab = oTab.tBodies[0].rows[i].cells[1].innerHTML.toLowerCase();
+			if (sTab.search(sTxt)!=-1) 
+			{
+				oTab.tBodies[0].rows[i].style.backgroundColor = 'yellow';
+			}
+			else //将未被匹配的项颜色调回原背景色
+			{
+				oTab.tBodies[0].rows[i].style.backgroundColor = '#f2f7fc';
+			}
+		}
+	};
 
 };
