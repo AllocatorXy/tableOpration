@@ -21,9 +21,9 @@ window.onload = function ()
 		return true;
 		}
 	}
-	function checkAge(id) 
+	function checkAge(id) //判断字符串是否为正整数
 	{
-	　　var re = /^[1-9]+[0-9]*]*$/; //判断字符串是否为数字 //判断正整数 /^[1-9]+[0-9]*]*$/ 
+	　　var re = /^[1-9]+[0-9]*]*$/; 
 	　　var num = document.getElementById(id).value;
 	　　if (!re.test(num)) 
 		{
@@ -87,17 +87,17 @@ window.onload = function ()
 
 	oBtnInsert.onclick = function () //插入新行
 	{
+		/*阻止非法内容*/
 		if (checkSpace(oName.value) === true) 
 		{
 			alert("名字不能为空！");
 			return false;
 		}
-		if (checkAge('age') === true) 
+		else if (checkAge('age') === true) 
 		{
 			alert("请输入正确的年龄！年龄为正整数。");
 			return false;
 		}
-
 		
 		var oTr = document.createElement('tr');
 
