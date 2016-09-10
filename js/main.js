@@ -3,7 +3,9 @@
 	var oBtnInsert = document.getElementById('btn1');
 	var oBtnSearch = document.getElementById('btn2');
 	var oBtnFilter = document.getElementById('btn3');
-	var id = oTab.tBodies[0].rows.length+1;
+	var oBtnById = document.getElementById('btn4');
+	var flag = 0; //用于排序按钮转换正序倒序
+	var id = oTab.tBodies[0].rows.length+1; //避免在添加项时出现id混乱
 	var oName = document.getElementById('name');
 	var oAge = document.getElementById('age');
 	var oSearch = document.getElementById('searchName');
