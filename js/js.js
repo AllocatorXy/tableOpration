@@ -13,13 +13,13 @@ window.onload = function ()
 	var defValAg = oAge.value;
 	var defValSc = oSearch.value;
 
-	function checkSpace(str) //判断名字输入是否合理(是否全为空格或没有填)
+	function checkSpace(str, defVal) //判断输入是否合理(是否全为空格或没有填)
 	{
 		while(str.lastIndexOf(" ")>=0)
 		{
 		str = str.replace(" ","");
 		}
-		if(str.length === 0||str.value == defValNm)
+		if(str.length === 0||str == defVal)
 		{
 		return true;
 		}
@@ -105,7 +105,7 @@ window.onload = function ()
 	oBtnInsert.onclick = function () 
 	{
 		/*阻止非法内容*/
-		if (checkSpace(oName.value) === true) 
+		if (checkSpace(oName.value, defValNm) === true) 
 		{
 			alert("名字不能为空！");
 			return false;
@@ -146,23 +146,28 @@ window.onload = function ()
 		oTab.tBodies[0].appendChild(oTr); //插入到tbodies
 	};
 
-
 	/*模糊匹配*/
 	oBtnSearch.onclick = function () 
-	{	
+	{
 		var flag = 0;
 		var sTxt = oSearch.value.toLowerCase(); 
+		if (checkSpace(sTxt,defValSc) === true) 
+		{
+		 	alert('请输入搜索内容');
+		 	return false;
+		} 
+		var arr = sTxt.split(' ');
 		for (var i = 0; i < oTab.tBodies[0].rows.length; i++) 
 		{
 			var sTab = oTab.tBodies[0].rows[i].cells[1].innerHTML.toLowerCase();
-			if (sTab.search(sTxt)!=-1) 
+			oTab.tBodies[0].rows[i].style.backgroundColor = '#f2f7fc'; //首先把背景色重置
+			for (var j = 0; j < arr.length; j++) //遍历查找多个关键字是否匹配
 			{
-				oTab.tBodies[0].rows[i].style.backgroundColor = 'yellow';
-				flag++;
-			}
-			else //将未被匹配的项颜色调回原背景色
-			{
-				oTab.tBodies[0].rows[i].style.backgroundColor = '#f2f7fc';
+				if (sTab.search(arr[j])!=-1) //哪个匹配就高亮哪行
+				{
+					oTab.tBodies[0].rows[i].style.backgroundColor = 'yellow';
+					flag++;
+				}
 			}
 		}
 		if (flag === 0) 
